@@ -1,0 +1,405 @@
+---
+title: "M.I.C.E. Encoding"
+author: Kyle Kurkela
+date: "`r format(Sys.Date(), '%m-%d-%y')`"
+output: 
+  ioslides_presentation:
+    logo: pics/mouse.png
+    widescreen: yes
+    css: custom.css
+runtime: shiny
+---
+
+<link rel="stylesheet" type="text/css" href="papaya/release/current/standard/papaya.css?build=1432" />
+<script type="text/javascript" src="papaya/release/current/standard/papaya.js?build=1432"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+## Experimental Design | Overview
+
+<div class="midcenter" style="margin-left:-400px; margin-top:-150px; background-color:transparent;">
+  <img src="pics/experimental-design-overview-1.png" style="background-color:transparent;"></img>
+</div>
+
+<div class="notes">
+
+- Four behavioral tasks: Encoding, Item Recognition, Emotion Source Retrieval, 'Find' Motivator Task
+- Two scan runs: Encoding than Retrieval.
+- For the purposes of our presentaion today, we are going to look at the results of some analyses from Encoding.
+
+</div>
+
+## Experimental Design | Overview
+
+<div class="midcenter" style="margin-left:-400px; margin-top:-150px; background-color:transparent;">
+  <img src="pics/experimental-design-overview-2.png" style="background-color:transparent;"></img>
+</div>
+
+<div class="notes">
+
+- Four behavioral tasks: Encoding, Item Recognition, Emotion Source Retrieval, 'Find' Motivator Task
+- Two scan runs: Encoding than Retrieval.
+- For the purposes of our presentaion today, we are going to look at the results of some analyses from Encoding.
+
+</div>
+
+## Encoding Task | Trial Overview
+
+<div class="midcenter" style="margin-left:-400px; margin-top:-150px; background-color:transparent;">
+  <img src="pics/encoding-trial-overview.png" style="background-color:transparent;"></img>
+</div>
+
+<div class="notes">
+
+- 4 Background Contexts
+- Mini-blocks consisting of 4 items on the same background
+- "Bomb" and "Safe" designation orthogonal to background context
+- "Bomb" designation consisted of a 25% chance of hearing a burst of **white noise**.
+- "Safe" designation consisted of a 25% chance of hearing a **neutral tone**.
+
+</div>
+
+## Behavioral Task | Encoding
+
+<!-- # ```{r echo=FALSE,message=FALSE,warning=FALSE,out.width=400,out.height=400} -->
+<!-- # require(vembedr) -->
+<!-- # require(htmltools) -->
+<!-- # embed_youtube("8FUjjvmPsho", width=400, height = 400) -->
+<!-- # ``` -->
+
+<p>
+<iframe width="400" height="400" src="https://www.youtube.com/embed/8FUjjvmPsho?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</p>
+
+<div class="notes">
+
+- 4 Background Contexts
+- Mini-blocks consisting of 4 items on the same background
+- "Bomb" and "Safe" designation orthogonal to background context
+- "Bomb" designation consisted of a 25% chance of hearing a burst of **white noise**.
+- "Safe" designation consisted of a 25% chance of hearing a **neutral tone**.
+
+</div>
+
+## Modeling | Subsequent Emotional Source Memory GLM
+
+```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
+require(tidyverse)
+require(reshape2)
+example_design_matrix <- as.matrix(read.csv('data/sub-s003-design-matrix.csv'))
+row.names(example_design_matrix) <- seq(1, nrow(example_design_matrix), 1)
+colnames(example_design_matrix) <- c("Emo-MBs", "Neu-MBs", #mini-blocks
+                                      "All-Trials","SubEmoMem","SubNeuMem", #trials
+                                      "x", "y", "z", #translation
+                                      "pitch", "roll", "yaw", #rotation
+                                      "run1-HPF1", "run1-HPF2", "run1-HPF3", #run1
+                                      "run2-HPF1", "run2-HPF2", "run2-HPF3", #run2
+                                      "run3-HPF1", "run3-HPF2", "run3-HPF3", #run3
+                                      "run4-HPF1", "run4-HPF2", "run4-HPF3", #run4
+                                      "run5-HPF1", "run5-HPF2", "run5-HPF3", #run5
+                                      "run6-HPF1", "run6-HPF2", "run6-HPF3", #run6
+                                      "run1-constant", "run2-constant", #run-constants
+                                      "run3-constant", "run4-constant", #run-constants
+                                      "run5-constant", "run6-constant", #run-constants
+                                      "constant" #experiment-wide-constant
+                                      )
+
+long.data <- melt(example_design_matrix, varnames = c("Scan", "Regressor"))
+
+ggplot(long.data, aes(x = Regressor, y = Scan)) + 
+  geom_raster(aes(fill=value)) + 
+  scale_x_discrete(position = "top") +
+  scale_fill_continuous(guide = FALSE) +
+  scale_y_continuous(trans = "reverse", breaks = seq(0,990,165)) +
+  theme(axis.text.x=element_text(size=8, angle=90, vjust=0.3, hjust = 0),
+        axis.text.y=element_text(size=9),
+        plot.title=element_text(size=11),
+        panel.grid=element_blank(),
+        panel.background=element_blank(),
+        axis.ticks.x = element_line()) +
+  labs(title = "Example Design Matrix")
+```
+
+## Regions of Interest
+
+<!-- <script type="text/javascript"> -->
+
+<!--     var params = []; -->
+
+<!--     params["images"] = ["ROIs/single_subj_T1.nii", "ROIs/rAMY_L_mask.nii", "ROIs/rAMY_R_mask.nii", "ROIs/rHIPP_BODY_L_mask.nii", "ROIs/rHIPP_BODY_R_mask.nii", "ROIs/rPRC_L_mask.nii", "ROIs/rPRC_R_mask.nii", "ROIs/rPHC_ANT_L_mask.nii", "ROIs/rPHC_ANT_R_mask.nii"]; -->
+
+<!--     params["luts"] = [{"name": "Reda", "data":[[0, 0.973, 0.463, 0.427], [.5, 0.973, 0.463, 0.427], [1, 0.973, 0.463, 0.427]], "gradation": "constant"}, {"name": "Redb", "data":[[0, .804, .588, 0], [.5, .804, .588, 0], [1, .804, .588, 0]], "gradation": "constant"}, {"name": "Greena", "data":[[0, 0.486, 0.682, 0.000], [.5, 0.486, 0.682, 0.000], [1, 0.486, 0.682, 0.000]], "gradation": "constant"}, {"name": "Greenb", "data":[[0, 0.000, 0.745, 0.404], [.5, 0.000, 0.745, 0.404], [1, 0.000, 0.745, 0.404]], "gradation": "constant"}, {"name": "Bluea", "data":[[0, 0.000, 0.749, 0.769], [.5, 0.000, 0.749, 0.769], [1, 0.000, 0.749, 0.769]], "gradation": "constant"}, {"name": "Blueb", "data":[[0, 0.000, 0.663, 1.000], [.5, 0.000, 0.663, 1.000], [1, 0.000, 0.663, 1.000]], "gradation": "constant"}, {"name": "Purplea", "data":[[0, 0.780, 0.486, 1.000], [.5, 0.780, 0.486, 1.000], [1, 0.780, 0.486, 1.000]], "gradation": "constant"}, {"name": "Purpleb", "data":[[0, 1.00, 0.38, 0.80], [.5, 1.00, 0.38, 0.80], [1, 1.00, 0.38, 0.80]], "gradation": "constant"}]; -->
+
+<!--     params["rAMY_L_mask.nii"]  = {lut:"Reda"}; -->
+<!--     params["rAMY_R_mask.nii"]  = {lut:"Redb"}; -->
+<!--     params["rHIPP_BODY_L_mask.nii"]  = {lut:"Greena"}; -->
+<!--     params["rHIPP_BODY_R_mask.nii"]  = {lut:"Greenb"}; -->
+<!--     params["rPRC_L_mask.nii"]  = {lut:"Bluea"}; -->
+<!--     params["rPRC_R_mask.nii"]  = {lut:"Blueb"};    -->
+<!--     params["rPHC_ANT_L_mask.nii"]  = {lut:"Purplea"}; -->
+<!--     params["rPHC_ANT_R_mask.nii"]  = {lut:"Purpleb"};  -->
+
+<!--     params["worldSpace"] = true; -->
+<!--     params["showControls"] = false; -->
+<!--     params["allowScroll"] = false; -->
+
+<!-- </script> -->
+
+<!-- <div class="midcenter" style="width:600px; height:600px; margin-left:-300px; margin-top:-200px;"> -->
+<!--   <div class="papaya" data-params="params"></div> -->
+<!-- </div> -->
+
+# ```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align="center"}
+# require(papayaWidget)
+# papayaWidget(img = c("single_subj_T1.nii",
+#                        "rAMY_L_mask.nii", "rAMY_R_mask.nii", #AMY
+#                        "rHIPP_BODY_L_mask.nii", "rHIPP_BODY_R_mask.nii", #HIPP
+#                        "rPRC_L_mask.nii", "rPRC_R_mask.nii", #PRC
+#                        "rPHC_ANT_L_mask.nii", "rPHC_ANT_R_mask.nii" #PHC
+#                        ))
+# ```
+
+```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align="center"}
+require(papayaWidget)
+expr <- papayaWidget(img = c("single_subj_T1.nii",
+                       "rAMY_L_mask.nii", "rAMY_R_mask.nii", #AMY
+                       "rHIPP_BODY_L_mask.nii", "rHIPP_BODY_R_mask.nii", #HIPP
+                       "rPRC_L_mask.nii", "rPRC_R_mask.nii", #PRC
+                       "rPHC_ANT_L_mask.nii", "rPHC_ANT_R_mask.nii" #PHC
+                       ))
+renderPapayaWidget(expr, env = parent.frame(), quoted = FALSE)
+```
+
+
+# Results| MTL
+
+## Results | Amygdala
+
+```{r echo=FALSE,warning=FALSE,message=FALSE}
+require(tidyverse)
+require(scales)
+df <- read.csv('data/roi-results.csv')
+
+df %>%
+  mutate(hemisphere = ifelse(grepl("[L]{1}", roi_name), "L", ifelse(grepl("[R]{1}", roi_name), "R", NA)),
+         hemisphere = ifelse(hemisphere == "L", "Left", ifelse(hemisphere == "R", "Right", NA)),
+         hemisphere = factor(hemisphere),
+         region     = roi_name,
+         region     = sub("^r", "", region),
+         region     = sub("_[LR]{1}_mask$", "", region),
+         region     = factor(region)
+         ) -> df
+```
+
+
+```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
+df %>%
+  filter(region == "AMY") %>%
+  ggplot(aes(x = con_name, y = summary_value, fill = roi_name)) +
+    geom_bar(stat = "summary", 
+             fun.y = "mean") +
+    geom_errorbar(stat = "summary", 
+                  fun.data = "mean_se", 
+                  width = 0.2) +
+    facet_grid(region~hemisphere, 
+               scales = "free_y") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(y = "Beta",
+         x = "Parameter",
+         title = "MTL ROI Results") +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_fill_manual(values = hue_pal()(8)[1:2], guide=FALSE)
+```
+
+## Results | Hippocampus
+
+```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
+df %>%
+  filter(region == "HIPP_BODY") %>%
+  ggplot(aes(x = con_name, y = summary_value, fill = roi_name)) +
+    geom_bar(stat = "summary", 
+             fun.y = "mean") +
+    geom_errorbar(stat = "summary", 
+                  fun.data = "mean_se", 
+                  width = 0.2) +
+    facet_grid(region~hemisphere, 
+               scales = "free_y") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(y = "Beta",
+         x = "Parameter",
+         title = "MTL ROI Results") +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_fill_manual(values = hue_pal()(8)[3:4], guide=FALSE)
+```
+
+## Results | Parahippocampal Cortex
+
+```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
+df %>%
+  filter(region == "PHC_ANT") %>%
+  ggplot(aes(x = con_name, y = summary_value, fill = roi_name)) +
+    geom_bar(stat = "summary", 
+             fun.y = "mean") +
+    geom_errorbar(stat = "summary", 
+                  fun.data = "mean_se", 
+                  width = 0.2) +
+    facet_grid(region~hemisphere, 
+               scales = "free_y") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(y = "Beta",
+         x = "Parameter",
+         title = "MTL ROI Results") +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_fill_manual(values = hue_pal()(8)[5:6], guide=FALSE)
+```
+
+## Results | Perirhinal Cortex
+
+```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
+require(ggsignif)
+
+annotation.df <- data.frame(hemisphere=c("Left", "Right"), 
+                            region=c("PRC","PRC"),
+                            start=c("NegDM", "NegDM"), 
+                            end=c("NeuDM", "NeuDM"),
+                            y=c(.75, .75),
+                            label=c("~", "*"))
+
+ann_text1 <- data.frame(con_name = "NegDM", summary_value = .25, lab = "**",
+                       hemisphere = factor("Left", levels = c("Left", "Right")),
+                       region = factor("PRC", levels = levels(df$region)))
+
+ann_text2 <- data.frame(con_name = "NegDM", summary_value = .3, lab = "***",
+                       hemisphere = factor("Right", levels = c("Left", "Right")),
+                       region = factor("PRC", levels = levels(df$region)))
+
+df %>%
+  filter(region == "PRC") %>%
+  ggplot(aes(x = con_name, y = summary_value, fill=roi_name)) +
+    geom_bar(stat = "summary", 
+             fun.y = "mean") +
+    geom_errorbar(stat = "summary", 
+                  fun.data = "mean_se", 
+                  width = 0.2) +
+    geom_signif(data=annotation.df,
+                aes(xmin=start, xmax=end, annotations=label, y_position=y, fill=NULL),
+                vjust = -.1,
+                manual = TRUE) + # cross bar significance
+    geom_text(data=ann_text1, aes(label = lab, fill=NULL)) +
+    geom_text(data=ann_text2, aes(label = lab, fill=NULL)) +  
+    facet_grid(region~hemisphere, 
+               scales = "free_y") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(y = "Beta",
+         x = "Parameter",
+         title = "MTL ROI Results",
+         caption = "~ = p<.06\n* = p<.05\n** = p<.01\n*** = p < .001") +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_fill_manual(values = hue_pal()(8)[7:8], guide=FALSE) +
+    coord_cartesian(ylim = c(-.2,.8))
+```
+
+```{r echo=FALSE, results='hide'}
+# The t-tests in the code chunk confirm the custom annotations in the figure above
+
+# test 1: NegDM != NegDM (paired) for Left PRC
+t.test(summary_value ~ con_name, 
+       data=df, 
+       subset = grepl("DM", df$con_name) & df$roi_name == "rPRC_L_mask", 
+       paired=TRUE)
+
+# test 2: NegDM != NegDM (paired) for Right PRC
+t.test(summary_value ~ con_name, 
+       data=df, 
+       subset = grepl("DM", df$con_name) & df$roi_name == "rPRC_R_mask", 
+       paired=TRUE)
+
+# test 3: NegDM != 0 (one-sample) for Left PRC
+t.test(x = df$summary_value[df$roi_name == "rPRC_L_mask" & df$con_name == "NegDM"], mu = 0)
+
+# test 4: NegDM != 0 (one-sample) for Right PRC
+t.test(x = df$summary_value[df$roi_name == "rPRC_R_mask" & df$con_name == "NegDM"], mu = 0)
+
+```
+
+
+## Results | MTL Summary
+
+```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
+df %>%
+  filter(!grepl("CAUDATE", roi_name)) %>%
+  ggplot(aes(x = con_name, y = summary_value, fill = roi_name)) +
+    geom_bar(stat = "summary", 
+             fun.y = "mean") +
+    geom_errorbar(stat = "summary", 
+                  fun.data = "mean_se", 
+                  width = 0.2) +
+    facet_grid(hemisphere~region, 
+               scales = "free_y") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(y = "Mean Beta Value", 
+         x = "Parameter",
+         title = "MTL Summary") +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_fill_discrete(guide=FALSE)
+```
+
+# What's going on outside the MTL?
+
+## Results | Caudate
+
+```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
+read.csv('data/roi-results-caudate-tails.csv') %>%
+  mutate(hemisphere = ifelse(grepl("[L]{1}", roi_name), "L", ifelse(grepl("[R]{1}", roi_name), "R", NA)),
+         hemisphere = ifelse(hemisphere == "L", "Left", ifelse(hemisphere == "R", "Right", NA)),
+         hemisphere = factor(hemisphere),
+         region     = roi_name,
+         region     = sub("^r", "", region),
+         region     = sub("_[LR]{1}_mask$", "", region),
+         region     = factor(region)
+         ) -> df.caudate.only
+
+annotation.df <- data.frame(hemisphere=c("Left", "Right"), 
+                            region=c("CAUDATE","CAUDATE"),
+                            start=c("Emotional-Blocks", "Emotional-Blocks"), 
+                            end=c("Neutral-Blocks", "Neutral-Blocks"),
+                            y=c(.1, .1),
+                            label=c("**", "***"))
+
+df.caudate.only %>%
+  ggplot(aes(x = con_name, y = summary_value, fill=roi_name)) +
+    geom_bar(stat = "summary", 
+             fun.y = "mean") +
+    geom_errorbar(stat = "summary", 
+                  fun.data = "mean_se", 
+                  width = 0.2) +
+    geom_signif(data=annotation.df,
+                aes(xmin=start, xmax=end, annotations=label, y_position=y, fill=NULL),
+                vjust = -.1,
+                manual = TRUE) + # cross bar significance
+    facet_grid(region~hemisphere, 
+               scales = "free_y") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(y = "Beta",
+         x = "Parameter",
+         title = "MTL ROI Results",
+         caption = "** = p<.01\n*** = p < .001") +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_fill_manual(values = hue_pal()(10)[9:10], guide=FALSE)
+```
+
+```{r echo=FALSE, results='hide'}
+# Confirmatory t-tests for the figure above
+
+# test 1: Emotional-Blocks != Neutral Blocks (paired) for Left Caudate
+t.test(data = df.caudate.only, 
+       summary_value~con_name, 
+       subset = grepl("Blocks", df.caudate.only$con_name) & hemisphere == "Left", 
+       paired = TRUE)
+
+# test 1: Emotional-Blocks != Neutral Blocks (paired) for Right Caudate
+t.test(data = df.caudate.only, 
+       summary_value~con_name, 
+       subset = grepl("Blocks", df.caudate.only$con_name) & hemisphere == "Right", 
+       paired = TRUE)
+```
+
