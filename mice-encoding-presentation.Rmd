@@ -59,17 +59,6 @@ output:
 
 ----
 
-<!-- # ```{r, echo=FALSE, eval=FALSE, results='asis'} -->
-<!-- # <iframe width="560" height="315" src="http://www.youtube.com/embed/9bZkp7q19f0?rel=0" frameborder="0" allowfullscreen></iframe> -->
-<!-- # ``` -->
-
-
-<!-- # ```{r echo=FALSE,message=FALSE,warning=FALSE,out.width=400,out.height=400} -->
-<!-- #   require(vembedr) -->
-<!-- #   require(htmltools) -->
-<!-- #   embed_youtube(id = "8FUjjvmPsho") -->
-<!-- # ``` -->
-
 <iframe width="400" height="400" src="https://www.youtube.com/embed/8FUjjvmPsho?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 <div class="notes">
@@ -123,7 +112,7 @@ ggplot(long.data, aes(x = Regressor, y = Scan)) +
 
 ## Regions of Interest
 
-Below is supposed to be a javascript viewer of the ROIs (!!!). Cannot for the life of me to get the thing to load in Rpubs. Works fine when I view the presentation locally...
+<!-- Below is supposed to be a javascript viewer of the ROIs (!!!). Cannot for the life of me to get the thing to load in Rpubs. Works fine when I view the presentation locally... -->
 
 <script type="text/javascript">
 
@@ -152,7 +141,7 @@ Below is supposed to be a javascript viewer of the ROIs (!!!). Cannot for the li
   <div class="papaya" data-params="params"></div>
 </div>
 
-# Results| MTL
+# Results | MTL
 
 ## Results | Amygdala
 
@@ -169,7 +158,7 @@ df %>%
          region     = sub("^r", "", region),
          region     = sub("_[LR]{1}_mask$", "", region),
          region     = factor(region)
-         ) -> df
+         ) %>% filter(con_name != "Trials") -> df
 ```
 
 
@@ -188,7 +177,7 @@ df %>%
     labs(y = "Beta",
          x = "Parameter",
          title = "MTL ROI Results") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
     scale_fill_manual(values = hue_pal()(8)[1:2], guide=FALSE)
 ```
 
@@ -209,7 +198,7 @@ df %>%
     labs(y = "Beta",
          x = "Parameter",
          title = "MTL ROI Results") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
     scale_fill_manual(values = hue_pal()(8)[3:4], guide=FALSE)
 ```
 
@@ -230,7 +219,7 @@ df %>%
     labs(y = "Beta",
          x = "Parameter",
          title = "MTL ROI Results") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
     scale_fill_manual(values = hue_pal()(8)[5:6], guide=FALSE)
 ```
 
@@ -243,7 +232,7 @@ annotation.df <- data.frame(hemisphere=c("Left", "Right"),
                             region=c("PRC","PRC"),
                             start=c("NegDM", "NegDM"), 
                             end=c("NeuDM", "NeuDM"),
-                            y=c(.75, .75),
+                            y=c(.4, .4),
                             label=c("~", "*"))
 
 ann_text1 <- data.frame(con_name = "NegDM", summary_value = .25, lab = "**",
@@ -275,9 +264,9 @@ df %>%
          x = "Parameter",
          title = "MTL ROI Results",
          caption = "~ = p<.06\n* = p<.05\n** = p<.01\n*** = p < .001") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
     scale_fill_manual(values = hue_pal()(8)[7:8], guide=FALSE) +
-    coord_cartesian(ylim = c(-.2,.8))
+    coord_cartesian(ylim = c(-.2, .45))
 ```
 
 ```{r echo=FALSE, results='hide'}
@@ -321,7 +310,7 @@ df %>%
     labs(y = "Mean Beta Value", 
          x = "Parameter",
          title = "MTL Summary") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
     scale_fill_discrete(guide=FALSE)
 ```
 
@@ -365,7 +354,7 @@ df.caudate.only %>%
          x = "Parameter",
          title = "MTL ROI Results",
          caption = "** = p<.01\n*** = p < .001") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "Trials", "NegDM", "NeuDM")) +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
     scale_fill_manual(values = hue_pal()(10)[9:10], guide=FALSE)
 ```
 
