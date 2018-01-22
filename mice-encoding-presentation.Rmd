@@ -118,18 +118,18 @@ ggplot(long.data, aes(x = Regressor, y = Scan)) +
 
     var params = [];
 
-    params["images"] = ["ROIs/single_subj_T1.nii", "ROIs/rAMY_L_mask.nii", "ROIs/rAMY_R_mask.nii", "ROIs/rHIPP_BODY_L_mask.nii", "ROIs/rHIPP_BODY_R_mask.nii", "ROIs/rPRC_L_mask.nii", "ROIs/rPRC_R_mask.nii", "ROIs/rPHC_ANT_L_mask.nii", "ROIs/rPHC_ANT_R_mask.nii"];
+    params["images"] = ["./ROIs/single_subj_T1.nii.gz", "./ROIs/rAMY_L_mask.nii.gz", "./ROIs/rAMY_R_mask.nii.gz", "./ROIs/rHIPP_BODY_L_mask.nii.gz", "./ROIs/rHIPP_BODY_R_mask.nii.gz", "./ROIs/rPRC_L_mask.nii.gz", "./ROIs/rPRC_R_mask.nii.gz", "./ROIs/rPHC_ANT_L_mask.nii.gz", "./ROIs/rPHC_ANT_R_mask.nii.gz"];
 
     params["luts"] = [{"name": "Reda", "data":[[0, 0.973, 0.463, 0.427], [.5, 0.973, 0.463, 0.427], [1, 0.973, 0.463, 0.427]], "gradation": "constant"}, {"name": "Redb", "data":[[0, .804, .588, 0], [.5, .804, .588, 0], [1, .804, .588, 0]], "gradation": "constant"}, {"name": "Greena", "data":[[0, 0.486, 0.682, 0.000], [.5, 0.486, 0.682, 0.000], [1, 0.486, 0.682, 0.000]], "gradation": "constant"}, {"name": "Greenb", "data":[[0, 0.000, 0.745, 0.404], [.5, 0.000, 0.745, 0.404], [1, 0.000, 0.745, 0.404]], "gradation": "constant"}, {"name": "Bluea", "data":[[0, 0.000, 0.749, 0.769], [.5, 0.000, 0.749, 0.769], [1, 0.000, 0.749, 0.769]], "gradation": "constant"}, {"name": "Blueb", "data":[[0, 0.000, 0.663, 1.000], [.5, 0.000, 0.663, 1.000], [1, 0.000, 0.663, 1.000]], "gradation": "constant"}, {"name": "Purplea", "data":[[0, 0.780, 0.486, 1.000], [.5, 0.780, 0.486, 1.000], [1, 0.780, 0.486, 1.000]], "gradation": "constant"}, {"name": "Purpleb", "data":[[0, 1.00, 0.38, 0.80], [.5, 1.00, 0.38, 0.80], [1, 1.00, 0.38, 0.80]], "gradation": "constant"}];
 
-    params["rAMY_L_mask.nii"]  = {lut:"Reda"};
-    params["rAMY_R_mask.nii"]  = {lut:"Redb"};
-    params["rHIPP_BODY_L_mask.nii"]  = {lut:"Greena"};
-    params["rHIPP_BODY_R_mask.nii"]  = {lut:"Greenb"};
-    params["rPRC_L_mask.nii"]  = {lut:"Bluea"};
-    params["rPRC_R_mask.nii"]  = {lut:"Blueb"};
-    params["rPHC_ANT_L_mask.nii"]  = {lut:"Purplea"};
-    params["rPHC_ANT_R_mask.nii"]  = {lut:"Purpleb"};
+    params["rAMY_L_mask.nii.gz"]  = {lut:"Reda"};
+    params["rAMY_R_mask.nii.gz"]  = {lut:"Redb"};
+    params["rHIPP_BODY_L_mask.nii.gz"]  = {lut:"Greena"};
+    params["rHIPP_BODY_R_mask.nii.gz"]  = {lut:"Greenb"};
+    params["rPRC_L_mask.nii.gz"]  = {lut:"Bluea"};
+    params["rPRC_R_mask.nii.gz"]  = {lut:"Blueb"};
+    params["rPHC_ANT_L_mask.nii.gz"]  = {lut:"Purplea"};
+    params["rPHC_ANT_R_mask.nii.gz"]  = {lut:"Purpleb"};
 
     params["worldSpace"] = true;
     params["showControls"] = false;

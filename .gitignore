@@ -2,3 +2,4 @@ vids/*
 vids
 rsconnect/*
 rsconnect
+*.DS_Store
