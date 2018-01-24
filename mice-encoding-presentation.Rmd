@@ -2,7 +2,7 @@
 title: "M.I.C.E. Encoding"
 author: Kyle Kurkela
 date: "`r format(Sys.Date(), '%m-%d-%y')`"
-output: 
+output:
   ioslides_presentation:
     logo: pics/mouse.png
     widescreen: yes
@@ -27,7 +27,7 @@ Before we begin, lets refresh our memory of the experimental design!
 
 In MICE, 30 participants were asked to become secret agents! As secret agents, they were assigned to complete 4 tasks:
 
-- An **encoding task**, where participants visited 4 different contexts and encountered pictures of everyday, neutral items. Participants visited each context twice during each scanning run, once during which the context was a "bomb" context and once during which the context was a "safe" context. "Bomb" items were accompanied by a 25% chance of hearing a startling burst of white noise and "safe" objects were accomapnied by a 25%
+- An **encoding task**, where participants visited 4 different contexts and encountered pictures of everyday, neutral items. Participants visited each context twice during each scanning run, once during which the context was a "bomb" context and once during which the context was a "safe" context. "Bomb" items were accompanied by a 25% chance of hearing a startling burst of white noise and "safe" objects were accompanied by a 25%
 
 </div>
 
@@ -87,7 +87,7 @@ The results I will be presenting today are from the **Encoding** portion of the 
     - Others?
 - What are the _transient_ neural correlates supporting emotional/neutral encoding?
     - Amygdala (AMY)
-    - Peririnal Cortext (PRC)
+    - Perirhinal cortex (PRC)
     - Others?
 - How do these neural correlates relate to subsequent emotional memory?
 
@@ -95,21 +95,22 @@ The results I will be presenting today are from the **Encoding** portion of the 
 
 - Past research suggests that the **Hippocampus** is key for encoding context
     - Particularly visual-spatial context
-- Past reearch suggests that the **Caudate Nucleous** is active when encountering a threatening context.
+- Past research suggests that the **Caudate Nucleus** is active when encountering a threatening context.
     - Threat of shock, Uncertainty
-- Others brain areas?
-    - 
+- Perhaps others brain areas?
+    - TEXT TEXT TEXT
 
 ## Hypotheses | Transient
 
 - Past research implicates the **Amygdala** in the perception of salient features  
     - Faces, pictures, objects, task-relevant  
-- Past research implicates the **Pererihinal Cortex** in the encoding and retrieval of item information  
+- Past research implicates the **Perirhinal Cortex** in the encoding and retrieval of item information  
     - Faces, pictures, objects, task-relevant  
-    
+
 ## Hypotheses | DM Effects
 
 - Do any of the above mentioned neural correlates change as a function of subsequent item-emotion association retrieval success?
+  - TEXT, TEXT, TEXT
 
 ## Modeling
 
@@ -144,8 +145,8 @@ colnames(example_design_matrix) <- c("Emo-MBs", "Neu-MBs", #mini-blocks
 
 long.data <- melt(example_design_matrix, varnames = c("Scan", "Regressor"))
 
-ggplot(long.data, aes(x = Regressor, y = Scan)) + 
-  geom_raster(aes(fill=value)) + 
+ggplot(long.data, aes(x = Regressor, y = Scan)) +
+  geom_raster(aes(fill=value)) +
   scale_x_discrete(position = "top") +
   scale_fill_continuous(guide = FALSE) +
   scale_y_continuous(trans = "reverse", breaks = seq(0,990,165)) +
@@ -157,11 +158,6 @@ ggplot(long.data, aes(x = Regressor, y = Scan)) +
         axis.ticks.x = element_line()) +
   labs(title = "Example Design Matrix")
 ```
-
-<!-- ## Modeling | DM Parametric Modulators -->
-
-<!-- - Two **Subseqeuent Emotional Memory Scores** were entered in as a parametric modulators of our transient "All Trials" regressor.   -->
-<!-- - Each encoding trial recieved a Neutral Subsequent Memory Score and an Emotional Subsequent Memory score, which were calculated as follows: -->
 
 ## Modeling | DM Parametric Modulators
 
@@ -188,7 +184,30 @@ ggplot(long.data, aes(x = Regressor, y = Scan)) +
 
 ## Modeling | DM Parametric Modulators
 
--  Note: We dropped participants with < 10 high confidence emotional hits (def bomb | bomb) OR < 10 high confidence neutral hits (def safe | safe), leaving an **n = 18**. 
+-  Note: We dropped participants with < 10 non-high confidence emotional hits (def bomb | bomb) OR < 10 non-high confidence neutral hits (def safe | safe), leaving an **n = 18**. In other words, people were _really good_ at this task.
+
+## Modeling | DM Parametric Modulators
+
+```{r, echo=FALSE, fig.align='center'}
+tidy.df <- read.csv("./data/trial-counts.csv")
+
+tidy.df %>%
+  mutate(
+    SubEmoMemScore = factor(SubEmoMemScore, levels = c("4", "NaN", "1", "2", "3"))
+  ) %>%
+  ggplot(aes(x = subject, fill = SubEmoMemScore)) +
+  geom_bar(position = "stack", width = .8) +
+  facet_grid(~Emotion) +
+  theme(axis.text.x = element_blank()) +
+  xlab("Subjects") +
+  ylab("Trial Count") +
+  ggtitle("Subsequent Emotional Memory Scores", subtitle = "Among MICE fMRI Subjects") +
+  labs(caption = "NaN = Subsequent NRs\nRed Shades = Incorrect, Blue Shades = Correct") +
+  scale_fill_manual(values=c("#2b8cbe", "#fecc5c", "#fd8d3c", "#e31a1c", "#a6bddb")) + 
+  geom_hline(yintercept = 10, color = "black")
+
+```
+
 
 # Results
 
@@ -243,7 +262,7 @@ df %>%
          region     = sub("^r", "", region),
          region     = sub("_[LR]{1}_mask$", "", region),
          region     = factor(region, levels = c("AMY", "PRC", "HIPP_BODY", "PHC_ANT"))
-         ) %>% 
+         ) %>%
   filter(con_name != "Trials") %>%
   filter(region != "PHC_ANT") -> df
 ```
@@ -253,9 +272,9 @@ df %>%
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
 require(ggsignif)
 
-annotation.df <- data.frame(hemisphere=c("Left", "Right"), 
+annotation.df <- data.frame(hemisphere=c("Left", "Right"),
                             region=c("PRC","PRC"),
-                            start=c("NegDM", "NegDM"), 
+                            start=c("NegDM", "NegDM"),
                             end=c("NeuDM", "NeuDM"),
                             y=c(.4, .4),
                             label=c("~", "*"))
@@ -272,10 +291,10 @@ ann_text2 <- data.frame(con_name = "NegDM", summary_value = .3, lab = "***",
 df %>%
   filter(!grepl("CAUDATE", roi_name)) %>%
   ggplot(aes(x = con_name, y = summary_value, fill = con_name)) +
-    geom_bar(stat = "summary", 
+    geom_bar(stat = "summary",
              fun.y = "mean") +
-    geom_errorbar(stat = "summary", 
-                  fun.data = "mean_se", 
+    geom_errorbar(stat = "summary",
+                  fun.data = "mean_se",
                   width = 0.2) +
     geom_signif(data=annotation.df,
                 aes(xmin=start, xmax=end, annotations=label, y_position=y, fill=NULL),
@@ -285,9 +304,9 @@ df %>%
     geom_text(data=ann_text2, aes(label = lab, fill=NULL)) +   
     facet_grid(hemisphere~region) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(y = "Mean Beta Value", 
+    labs(y = "Mean Beta Value",
          x = "Parameter",
-         title = "Transient DM Effects", 
+         title = "Transient DM Effects",
          subtitle = "MTL ROIs",
          caption = "~ = p<.06\n* = p<.05\n** = p<.01\n*** = p < .001") +
     scale_x_discrete(limits = c("NegDM", "NeuDM")) +
@@ -320,15 +339,15 @@ ezANOVA(dv = summary_value
 # Follow up t-tests in the code chunk confirm the custom annotations in the figure above
 
 # test 1: NegDM != NegDM (paired) for Left PRC
-t.test(summary_value ~ con_name, 
-       data=df, 
-       subset = grepl("DM", df$con_name) & df$roi_name == "rPRC_L_mask", 
+t.test(summary_value ~ con_name,
+       data=df,
+       subset = grepl("DM", df$con_name) & df$roi_name == "rPRC_L_mask",
        paired=TRUE)
 
 # test 2: NegDM != NegDM (paired) for Right PRC
-t.test(summary_value ~ con_name, 
-       data=df, 
-       subset = grepl("DM", df$con_name) & df$roi_name == "rPRC_R_mask", 
+t.test(summary_value ~ con_name,
+       data=df,
+       subset = grepl("DM", df$con_name) & df$roi_name == "rPRC_R_mask",
        paired=TRUE)
 
 # test 3: NegDM != 0 (one-sample) for Left PRC
@@ -346,8 +365,8 @@ t.test(x = df$summary_value[df$roi_name == "rPRC_R_mask" & df$con_name == "NegDM
 
   - Whole brain results; p<.001 (unc.) k=10
   - Not much survives a liberal uncorrected threshold
-  - Looks like Cerebellum, Visual, Superior Frontal
-  
+  - Small cerebellum, brainstem, early visual, and superior parietal (supramarginal gyrus?) clusters
+
 </div>
 
 # Results | Sustained Encoding
@@ -358,19 +377,32 @@ t.test(x = df$summary_value[df$roi_name == "rPRC_R_mask" & df$con_name == "NegDM
 df %>%
   filter(!grepl("CAUDATE", roi_name)) %>%
   ggplot(aes(x = con_name, y = summary_value, fill = con_name)) +
-    geom_bar(stat = "summary", 
+    geom_bar(stat = "summary",
              fun.y = "mean") +
-    geom_errorbar(stat = "summary", 
-                  fun.data = "mean_se", 
+    geom_errorbar(stat = "summary",
+                  fun.data = "mean_se",
                   width = 0.2) +
     facet_grid(hemisphere~region) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(y = "Mean Beta Value", 
+    labs(y = "Mean Beta Value",
          x = "Parameter",
          title = "MTL Summary") +
     scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks")) +
     scale_fill_discrete(guide=FALSE)
 ```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+require(ez)
+# Parameter x Region x Hemisphere ANOVA
+df %>%
+  filter(grepl("Blocks", con_name)) %>%
+ezANOVA(dv = summary_value
+        , wid = subject_id
+        , within = .(con_name, region, hemisphere)
+) %>%
+  print()
+```
+
 
 ## Sustained | Outside MTL
 
@@ -378,5 +410,27 @@ df %>%
   ![](pics/Emotional-Blocks_vs_Neutral-Blocks_001k10_glass-brain.png)
 
   - Whole brain results; p<.001 (unc.) k=10
-  
+
+</div>
+
+## Sustained | Outside MTL
+
+<div class="columns-2">
+  ![](pics/Emotional-Blocks_vs_Neutral-Blocks_001k10_glass-brain_caudate-highlight.png)
+
+  - Whole brain results; p<.001 (unc.) k=10
+  - Caudate!!
+
+</div>
+
+## Sustained | Outside MTL
+
+<div class="columns-2">
+  ![](pics/Emotional-Blocks_vs_Neutral-Blocks_001k10_glass-brain.png)
+
+  - Whole brain results; p<.001 (unc.) k=10
+  - Caudate!!
+      - Specifically, looks like the Caudate Tail/posterior caudate
+  - Other brain regions include bilateral frontal pole, ACC, superior frontal gyrus, orbital frontal cortex, early visual, and the cerebellum
+
 </div>
