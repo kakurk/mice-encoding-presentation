@@ -79,6 +79,38 @@ The results I will be presenting today are from the **Encoding** portion of the 
 - What are the _transient_ neural correlates supporting emotional/neutral encoding?
 - How do these neural correlates relate to subsequent memory for item-emotion association?
 
+## Hypotheses
+
+- What are the _sustained_ neural correlates supporting encoding in a threatening/safe context?
+    - Hippocampus (HIPP)
+    - Caudate Nucleous (Caudate)
+    - Others?
+- What are the _transient_ neural correlates supporting emotional/neutral encoding?
+    - Amygdala (AMY)
+    - Peririnal Cortext (PRC)
+    - Others?
+- How do these neural correlates relate to subsequent emotional memory?
+
+## Hypotheses | Sustained
+
+- Past research suggests that the **Hippocampus** is key for encoding context
+    - Particularly visual-spatial context
+- Past reearch suggests that the **Caudate Nucleous** is active when encountering a threatening context.
+    - Threat of shock, Uncertainty
+- Others brain areas?
+    - 
+
+## Hypotheses | Transient
+
+- Past research implicates the **Amygdala** in the perception of salient features  
+    - Faces, pictures, objects, task-relevant  
+- Past research implicates the **Pererihinal Cortex** in the encoding and retrieval of item information  
+    - Faces, pictures, objects, task-relevant  
+    
+## Hypotheses | DM Effects
+
+- Do any of the above mentioned neural correlates change as a function of subsequent item-emotion association retrieval success?
+
 ## Modeling
 
 To answer these questions, we created a GLM that:
@@ -309,7 +341,14 @@ t.test(x = df$summary_value[df$roi_name == "rPRC_R_mask" & df$con_name == "NegDM
 
 ## Transient DM Effects | Outside MTL
 
-GLASS BRAIN OF NegDM > NeuDM
+<div class="columns-2">
+  ![](pics/NegDM_vs_NeuDM_001k10_glass-brain.png)
+
+  - Whole brain results; p<.001 (unc.) k=10
+  - Not much survives a liberal uncorrected threshold
+  - Looks like Cerebellum, Visual, Superior Frontal
+  
+</div>
 
 # Results | Sustained Encoding
 
