@@ -163,11 +163,11 @@ ggplot(long.data, aes(x = Regressor, y = Scan)) +
 ## Results | Outline
 
 - Transient DM Effects
-  - MTL ROIs
-  - Outside of MTL (Whole Brain)
+    - MTL ROIs
+    - Outside of MTL (Whole Brain)
 - Sustained DM Effects
-  - MTL ROIs
-  - Outside of the MTL (Whole Brain)
+    - MTL ROIs
+    - Outside of the MTL (Whole Brain)
 
 ## Results | MTL ROIs
 
@@ -335,8 +335,11 @@ df %>%
 
 ## Sustained | Outside MTL
 
-<div class="midcenter" style="margin-left:-400px; margin-top:-150px; background-color:transparent;">
-  <img src="pics/Emotional-Blocks_vs_Neutral-Blocks_001k10.png" style="background-color:transparent;"></img>
+<div class="columns-2">
+  ![](pics/Emotional-Blocks_vs_Neutral-Blocks_001k10_glass-brain.png)
+
+  - Whole brain results; p<.001 (unc.) k=10
+  
 </div>
 
 # What's going on outside the MTL?

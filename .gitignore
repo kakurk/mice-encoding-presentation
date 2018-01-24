@@ -3,3 +3,4 @@ vids
 rsconnect/*
 rsconnect
 *.DS_Store
+*.xcf
