@@ -73,16 +73,11 @@ The results I will be presenting today are from the **Encoding** portion of the 
 
 </div>
 
-## Questions
-
-- What are the _sustained_ neural correlates supporting encoding in threatening/safe contexts?
-- What are the _transient_ neural correlates supporting item-emotion encoding?
-
 ## Hypotheses
 
 - What are the _sustained_ neural correlates supporting encoding in a threatening/safe context?
     - Caudate- Threat of shock (Collins et al., 2014; Murty, LaBar, Adcock, 2012)
-    - Hippocampus - binding/encoding of context
+    - Hippocampus
     - Others?
 - What are the _transient_ neural correlates supporting item-emotion encoding?
     - Amygdala (AMY) - emotional salience
@@ -415,4 +410,4 @@ ezANOVA(dv = summary_value
 
 - Functional connectivity
     - AMY <--> PRC?
-- Other thoughts?
+- Other thoughts? Questions? Suggestions? Comments? Concearns?
