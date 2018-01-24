@@ -21,9 +21,13 @@ output:
 
 <div class="notes">
 
-- Four behavioral tasks: Encoding, Item Recognition, Emotion Source Retrieval, 'Find' Motivator Task
-- Two scan runs: Encoding than Retrieval.
-- For the purposes of our presentaion today, we are going to look at the results of some analyses from Encoding.
+Today I will be presenting the results of an analysis that I ran on MICE Encoding. This will be a sneak peak at a poster I will be presenting on for CNS in a month or so.
+
+Before we begin, lets refresh our memory of the experimental design!
+
+In MICE, 30 participants were asked to become secret agents! As secret agents, they were assigned to complete 4 tasks:
+
+- An **encoding task**, where participants visited 4 different contexts and encountered pictures of everyday, neutral items. Participants visited each context twice during each scanning run, once during which the context was a "bomb" context and once during which the context was a "safe" context. "Bomb" items were accompanied by a 25% chance of hearing a startling burst of white noise and "safe" objects were accomapnied by a 25%
 
 </div>
 
@@ -35,9 +39,7 @@ output:
 
 <div class="notes">
 
-- Four behavioral tasks: Encoding, Item Recognition, Emotion Source Retrieval, 'Find' Motivator Task
-- Two scan runs: Encoding than Retrieval.
-- For the purposes of our presentaion today, we are going to look at the results of some analyses from Encoding.
+The results I will be presenting today are from the **Encoding** portion of the experiment.
 
 </div>
 
@@ -71,7 +73,21 @@ output:
 
 </div>
 
-## Modeling | Subsequent Emotional Source Memory GLM
+## Questions
+
+- What are the _sustained_ neural correlates supporting emotional/neutral encoding?
+- What are the _transient_ neural correlates supporting emotional/neutral encoding?
+- How do these neural correlates relate to subsequent memory for item-emotion association?
+
+## Modeling
+
+To answer these questions, we created a GLM that:
+
+- ...captures both **sustained** BOLD responses over the course of Mini-blocks and **transient** BOLD responses to individual stimuli.
+
+- ...captures neural correlates that vary as a function of subsequent memory (i.e., a **difference in memory**  effect).
+
+## Modeling | Design Matrix
 
 ```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
 require(tidyverse)
@@ -110,30 +126,69 @@ ggplot(long.data, aes(x = Regressor, y = Scan)) +
   labs(title = "Example Design Matrix")
 ```
 
-## Regions of Interest
+<!-- ## Modeling | DM Parametric Modulators -->
 
-<!-- Below is supposed to be a javascript viewer of the ROIs (!!!). Cannot for the life of me to get the thing to load in Rpubs. Works fine when I view the presentation locally... -->
+<!-- - Two **Subseqeuent Emotional Memory Scores** were entered in as a parametric modulators of our transient "All Trials" regressor.   -->
+<!-- - Each encoding trial recieved a Neutral Subsequent Memory Score and an Emotional Subsequent Memory score, which were calculated as follows: -->
+
+## Modeling | DM Parametric Modulators
+
+- _Negative_ Subsequent Memory Score:
+    - IFF bomb object:
+        - Score 4: Def Bomb (i.e., HC Hit)
+        - Score 3: Prob Bomb (i.e, LC Hit)
+        - Score 2: Prob Safe (i.e., LC Miss)
+        - Score 1: Def Safe (i.e., HC Miss)
+    - IFF safe object:
+        - Average Negative Subsequent Memory Score
+
+## Modeling | DM Parametric Modulators
+
+
+- _Neutral_ Subsequent Memory Score:
+    - IFF safe object:
+        - Score 4: Def Safe (i.e., HC Hit)
+        - Score 3: Prob Safe (i.e., LC Hit)
+        - Score 2: Prob Bomb (i.e., LC Miss)
+        - Score 1: Def Bomb (i.e., HC Miss)
+    - IFF bomb object:
+        - Average Neutral Subsequent Memory Score
+
+## Modeling | DM Parametric Modulators
+
+-  Note: We dropped participants with < 10 high confidence emotional hits (def bomb | bomb) OR < 10 high confidence neutral hits (def safe | safe), leaving an **n = 18**. 
+
+# Results
+
+## Results | Outline
+
+- Transient DM Effects
+  - MTL ROIs
+  - Outside of MTL (Whole Brain)
+- Sustained DM Effects
+  - MTL ROIs
+  - Outside of the MTL (Whole Brain)
+
+## Results | MTL ROIs
 
 <script type="text/javascript">
 
-    var params = [];
+var params = [];
 
-    params["images"] = ["./ROIs/single_subj_T1.nii", "./ROIs/rAMY_L_mask.nii", "./ROIs/rAMY_R_mask.nii", "./ROIs/rHIPP_BODY_L_mask.nii", "./ROIs/rHIPP_BODY_R_mask.nii", "./ROIs/rPRC_L_mask.nii", "./ROIs/rPRC_R_mask.nii", "./ROIs/rPHC_ANT_L_mask.nii", "./ROIs/rPHC_ANT_R_mask.nii"];
+params["images"] = ["./ROIs/icbm_avg_152_t1_tal_nlin_symmetric_VI.nii", "./ROIs/rAMY_L_mask.nii", "./ROIs/rAMY_R_mask.nii", "./ROIs/rPRC_L_mask.nii", "./ROIs/rPRC_R_mask.nii", "./ROIs/rHIPP_BODY_L_mask.nii", "./ROIs/rHIPP_BODY_R_mask.nii"];
 
-    params["luts"] = [{"name": "Reda", "data":[[0, 0.973, 0.463, 0.427], [.5, 0.973, 0.463, 0.427], [1, 0.973, 0.463, 0.427]], "gradation": "constant"}, {"name": "Redb", "data":[[0, .804, .588, 0], [.5, .804, .588, 0], [1, .804, .588, 0]], "gradation": "constant"}, {"name": "Greena", "data":[[0, 0.486, 0.682, 0.000], [.5, 0.486, 0.682, 0.000], [1, 0.486, 0.682, 0.000]], "gradation": "constant"}, {"name": "Greenb", "data":[[0, 0.000, 0.745, 0.404], [.5, 0.000, 0.745, 0.404], [1, 0.000, 0.745, 0.404]], "gradation": "constant"}, {"name": "Bluea", "data":[[0, 0.000, 0.749, 0.769], [.5, 0.000, 0.749, 0.769], [1, 0.000, 0.749, 0.769]], "gradation": "constant"}, {"name": "Blueb", "data":[[0, 0.000, 0.663, 1.000], [.5, 0.000, 0.663, 1.000], [1, 0.000, 0.663, 1.000]], "gradation": "constant"}, {"name": "Purplea", "data":[[0, 0.780, 0.486, 1.000], [.5, 0.780, 0.486, 1.000], [1, 0.780, 0.486, 1.000]], "gradation": "constant"}, {"name": "Purpleb", "data":[[0, 1.00, 0.38, 0.80], [.5, 1.00, 0.38, 0.80], [1, 1.00, 0.38, 0.80]], "gradation": "constant"}];
+params["luts"] = [{"name": "Reda", "data":[[0, 0.973, 0.463, 0.427], [.5, 0.973, 0.463, 0.427], [1, 0.973, 0.463, 0.427]], "gradation": "constant"}, {"name": "Redb", "data":[[0, .804, .588, 0], [.5, .804, .588, 0], [1, .804, .588, 0]], "gradation": "constant"}, {"name": "Greena", "data":[[0, 0.486, 0.682, 0.000], [.5, 0.486, 0.682, 0.000], [1, 0.486, 0.682, 0.000]], "gradation": "constant"}, {"name": "Greenb", "data":[[0, 0.000, 0.745, 0.404], [.5, 0.000, 0.745, 0.404], [1, 0.000, 0.745, 0.404]], "gradation": "constant"}, {"name": "Bluea", "data":[[0, 0.000, 0.749, 0.769], [.5, 0.000, 0.749, 0.769], [1, 0.000, 0.749, 0.769]], "gradation": "constant"}, {"name": "Blueb", "data":[[0, 0.000, 0.663, 1.000], [.5, 0.000, 0.663, 1.000], [1, 0.000, 0.663, 1.000]], "gradation": "constant"}, {"name": "Purplea", "data":[[0, 0.780, 0.486, 1.000], [.5, 0.780, 0.486, 1.000], [1, 0.780, 0.486, 1.000]], "gradation": "constant"}, {"name": "Purpleb", "data":[[0, 1.00, 0.38, 0.80], [.5, 1.00, 0.38, 0.80], [1, 1.00, 0.38, 0.80]], "gradation": "constant"}];
 
-    params["rAMY_L_mask.nii"]  = {lut:"Reda"};
-    params["rAMY_R_mask.nii"]  = {lut:"Redb"};
-    params["rHIPP_BODY_L_mask.nii"]  = {lut:"Greena"};
-    params["rHIPP_BODY_R_mask.nii"]  = {lut:"Greenb"};
-    params["rPRC_L_mask.nii"]  = {lut:"Bluea"};
-    params["rPRC_R_mask.nii"]  = {lut:"Blueb"};
-    params["rPHC_ANT_L_mask.nii"]  = {lut:"Purplea"};
-    params["rPHC_ANT_R_mask.nii"]  = {lut:"Purpleb"};
+params["rAMY_L_mask.nii"]  = {lut:"Reda"};
+params["rAMY_R_mask.nii"]  = {lut:"Redb"};
+params["rPRC_L_mask.nii"]  = {lut:"Purplea"};
+params["rPRC_R_mask.nii"]  = {lut:"Purpleb"};    
+params["rHIPP_BODY_L_mask.nii"]  = {lut:"Greena"};
+params["rHIPP_BODY_R_mask.nii"]  = {lut:"Greenb"};
 
-    params["worldSpace"] = true;
-    params["showControls"] = false;
-    params["allowScroll"] = false;
+params["worldSpace"] = true;
+params["showControls"] = false;
+params["allowScroll"] = false;
 
 </script>
 
@@ -141,9 +196,7 @@ ggplot(long.data, aes(x = Regressor, y = Scan)) +
   <div class="papaya" data-params="params"></div>
 </div>
 
-# Results | MTL
-
-## Results | Amygdala
+# Results | Transient DM Effects
 
 ```{r echo=FALSE,warning=FALSE,message=FALSE}
 require(tidyverse)
@@ -157,73 +210,13 @@ df %>%
          region     = roi_name,
          region     = sub("^r", "", region),
          region     = sub("_[LR]{1}_mask$", "", region),
-         region     = factor(region)
-         ) %>% filter(con_name != "Trials") -> df
+         region     = factor(region, levels = c("AMY", "PRC", "HIPP_BODY", "PHC_ANT"))
+         ) %>% 
+  filter(con_name != "Trials") %>%
+  filter(region != "PHC_ANT") -> df
 ```
 
-
-```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
-df %>%
-  filter(region == "AMY") %>%
-  ggplot(aes(x = con_name, y = summary_value, fill = roi_name)) +
-    geom_bar(stat = "summary", 
-             fun.y = "mean") +
-    geom_errorbar(stat = "summary", 
-                  fun.data = "mean_se", 
-                  width = 0.2) +
-    facet_grid(region~hemisphere, 
-               scales = "free_y") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(y = "Beta",
-         x = "Parameter",
-         title = "MTL ROI Results") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
-    scale_fill_manual(values = hue_pal()(8)[1:2], guide=FALSE)
-```
-
-## Results | Hippocampus
-
-```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
-df %>%
-  filter(region == "HIPP_BODY") %>%
-  ggplot(aes(x = con_name, y = summary_value, fill = roi_name)) +
-    geom_bar(stat = "summary", 
-             fun.y = "mean") +
-    geom_errorbar(stat = "summary", 
-                  fun.data = "mean_se", 
-                  width = 0.2) +
-    facet_grid(region~hemisphere, 
-               scales = "free_y") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(y = "Beta",
-         x = "Parameter",
-         title = "MTL ROI Results") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
-    scale_fill_manual(values = hue_pal()(8)[3:4], guide=FALSE)
-```
-
-## Results | Parahippocampal Cortex
-
-```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
-df %>%
-  filter(region == "PHC_ANT") %>%
-  ggplot(aes(x = con_name, y = summary_value, fill = roi_name)) +
-    geom_bar(stat = "summary", 
-             fun.y = "mean") +
-    geom_errorbar(stat = "summary", 
-                  fun.data = "mean_se", 
-                  width = 0.2) +
-    facet_grid(region~hemisphere, 
-               scales = "free_y") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(y = "Beta",
-         x = "Parameter",
-         title = "MTL ROI Results") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
-    scale_fill_manual(values = hue_pal()(8)[5:6], guide=FALSE)
-```
-
-## Results | Perirhinal Cortex
+## Transient DM Effects | MTL
 
 ```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
 require(ggsignif)
@@ -243,9 +236,10 @@ ann_text2 <- data.frame(con_name = "NegDM", summary_value = .3, lab = "***",
                        hemisphere = factor("Right", levels = c("Left", "Right")),
                        region = factor("PRC", levels = levels(df$region)))
 
+
 df %>%
-  filter(region == "PRC") %>%
-  ggplot(aes(x = con_name, y = summary_value, fill=roi_name)) +
+  filter(!grepl("CAUDATE", roi_name)) %>%
+  ggplot(aes(x = con_name, y = summary_value, fill = con_name)) +
     geom_bar(stat = "summary", 
              fun.y = "mean") +
     geom_errorbar(stat = "summary", 
@@ -256,21 +250,42 @@ df %>%
                 vjust = -.1,
                 manual = TRUE) + # cross bar significance
     geom_text(data=ann_text1, aes(label = lab, fill=NULL)) +
-    geom_text(data=ann_text2, aes(label = lab, fill=NULL)) +  
-    facet_grid(region~hemisphere, 
-               scales = "free_y") +
+    geom_text(data=ann_text2, aes(label = lab, fill=NULL)) +   
+    facet_grid(hemisphere~region) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(y = "Beta",
+    labs(y = "Mean Beta Value", 
          x = "Parameter",
-         title = "MTL ROI Results",
+         title = "Transient DM Effects", 
+         subtitle = "MTL ROIs",
          caption = "~ = p<.06\n* = p<.05\n** = p<.01\n*** = p < .001") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
-    scale_fill_manual(values = hue_pal()(8)[7:8], guide=FALSE) +
-    coord_cartesian(ylim = c(-.2, .45))
+    scale_x_discrete(limits = c("NegDM", "NeuDM")) +
+    scale_fill_manual(guide=FALSE, values = c("#de2d26", "#3182bd")) +
+    coord_cartesian(ylim = c(-.1, .45))  
 ```
 
-```{r echo=FALSE, results='hide'}
-# The t-tests in the code chunk confirm the custom annotations in the figure above
+```{r echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+require(ez)
+# Parameter x Region x Hemisphere ANOVA
+df %>%
+  filter(!grepl("Blocks", con_name)) %>%
+ezANOVA(dv = summary_value
+        , wid = subject_id
+        , within = .(con_name, region, hemisphere)
+) %>%
+  print()
+
+# Follow up Parameter x Hemisphere ANOVA in the PRC
+df %>%
+  filter(!grepl("Blocks", con_name)) %>%
+  filter(grepl("PRC", region)) %>%
+ezANOVA(dv = summary_value
+        , wid = subject_id
+        , within = .(con_name, hemisphere)
+) %>%
+  print()
+
+
+# Follow up t-tests in the code chunk confirm the custom annotations in the figure above
 
 # test 1: NegDM != NegDM (paired) for Left PRC
 t.test(summary_value ~ con_name, 
@@ -292,27 +307,37 @@ t.test(x = df$summary_value[df$roi_name == "rPRC_R_mask" & df$con_name == "NegDM
 
 ```
 
+## Transient DM Effects | Outside MTL
 
-## Results | MTL Summary
+GLASS BRAIN OF NegDM > NeuDM
+
+# Results | Sustained Encoding
+
+## Sustained | MTL
 
 ```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
 df %>%
   filter(!grepl("CAUDATE", roi_name)) %>%
-  ggplot(aes(x = con_name, y = summary_value, fill = roi_name)) +
+  ggplot(aes(x = con_name, y = summary_value, fill = con_name)) +
     geom_bar(stat = "summary", 
              fun.y = "mean") +
     geom_errorbar(stat = "summary", 
                   fun.data = "mean_se", 
                   width = 0.2) +
-    facet_grid(hemisphere~region, 
-               scales = "free_y") +
+    facet_grid(hemisphere~region) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     labs(y = "Mean Beta Value", 
          x = "Parameter",
          title = "MTL Summary") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
+    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks")) +
     scale_fill_discrete(guide=FALSE)
 ```
+
+## Sustained | Outside MTL
+
+<div class="midcenter" style="margin-left:-400px; margin-top:-150px; background-color:transparent;">
+  <img src="pics/Emotional-Blocks_vs_Neutral-Blocks_001k10.png" style="background-color:transparent;"></img>
+</div>
 
 # What's going on outside the MTL?
 
@@ -373,4 +398,3 @@ t.test(data = df.caudate.only,
        subset = grepl("Blocks", df.caudate.only$con_name) & hemisphere == "Right", 
        paired = TRUE)
 ```
-
