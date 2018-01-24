@@ -165,7 +165,7 @@ ggplot(long.data, aes(x = Regressor, y = Scan)) +
 - Transient DM Effects
     - MTL ROIs
     - Outside of MTL (Whole Brain)
-- Sustained DM Effects
+- Sustained Effects
     - MTL ROIs
     - Outside of the MTL (Whole Brain)
 
@@ -218,7 +218,7 @@ df %>%
 
 ## Transient DM Effects | MTL
 
-```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
 require(ggsignif)
 
 annotation.df <- data.frame(hemisphere=c("Left", "Right"), 
@@ -341,63 +341,3 @@ df %>%
   - Whole brain results; p<.001 (unc.) k=10
   
 </div>
-
-# What's going on outside the MTL?
-
-## Results | Caudate
-
-```{r echo=FALSE,warning=FALSE,message=FALSE,fig.align='center'}
-read.csv('data/roi-results-caudate-tails.csv') %>%
-  mutate(hemisphere = ifelse(grepl("[L]{1}", roi_name), "L", ifelse(grepl("[R]{1}", roi_name), "R", NA)),
-         hemisphere = ifelse(hemisphere == "L", "Left", ifelse(hemisphere == "R", "Right", NA)),
-         hemisphere = factor(hemisphere),
-         region     = roi_name,
-         region     = sub("^r", "", region),
-         region     = sub("_[LR]{1}_mask$", "", region),
-         region     = factor(region)
-         ) -> df.caudate.only
-
-annotation.df <- data.frame(hemisphere=c("Left", "Right"), 
-                            region=c("CAUDATE","CAUDATE"),
-                            start=c("Emotional-Blocks", "Emotional-Blocks"), 
-                            end=c("Neutral-Blocks", "Neutral-Blocks"),
-                            y=c(.1, .1),
-                            label=c("**", "***"))
-
-df.caudate.only %>%
-  ggplot(aes(x = con_name, y = summary_value, fill=roi_name)) +
-    geom_bar(stat = "summary", 
-             fun.y = "mean") +
-    geom_errorbar(stat = "summary", 
-                  fun.data = "mean_se", 
-                  width = 0.2) +
-    geom_signif(data=annotation.df,
-                aes(xmin=start, xmax=end, annotations=label, y_position=y, fill=NULL),
-                vjust = -.1,
-                manual = TRUE) + # cross bar significance
-    facet_grid(region~hemisphere, 
-               scales = "free_y") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(y = "Beta",
-         x = "Parameter",
-         title = "MTL ROI Results",
-         caption = "** = p<.01\n*** = p < .001") +
-    scale_x_discrete(limits = c("Emotional-Blocks", "Neutral-Blocks", "NegDM", "NeuDM")) +
-    scale_fill_manual(values = hue_pal()(10)[9:10], guide=FALSE)
-```
-
-```{r echo=FALSE, results='hide'}
-# Confirmatory t-tests for the figure above
-
-# test 1: Emotional-Blocks != Neutral Blocks (paired) for Left Caudate
-t.test(data = df.caudate.only, 
-       summary_value~con_name, 
-       subset = grepl("Blocks", df.caudate.only$con_name) & hemisphere == "Left", 
-       paired = TRUE)
-
-# test 1: Emotional-Blocks != Neutral Blocks (paired) for Right Caudate
-t.test(data = df.caudate.only, 
-       summary_value~con_name, 
-       subset = grepl("Blocks", df.caudate.only$con_name) & hemisphere == "Right", 
-       paired = TRUE)
-```
