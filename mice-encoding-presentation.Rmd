@@ -61,7 +61,7 @@ The results I will be presenting today are from the **Encoding** portion of the 
 
 ----
 
-<iframe width="400" height="400" src="https://www.youtube.com/embed/8FUjjvmPsho?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe width="400" height="400" src="https://www.youtube.com/embed/8FUjjvmPsho?rel=0" frameborder="0" allow="autoplay"; encrypted-media" allowfullscreen></iframe>
 
 <div class="notes">
 
@@ -75,42 +75,18 @@ The results I will be presenting today are from the **Encoding** portion of the 
 
 ## Questions
 
-- What are the _sustained_ neural correlates supporting emotional/neutral encoding?
-- What are the _transient_ neural correlates supporting emotional/neutral encoding?
-- How do these neural correlates relate to subsequent memory for item-emotion association?
+- What are the _sustained_ neural correlates supporting encoding in threatening/safe contexts?
+- What are the _transient_ neural correlates supporting item-emotion encoding?
 
 ## Hypotheses
 
 - What are the _sustained_ neural correlates supporting encoding in a threatening/safe context?
-    - Hippocampus (HIPP)
-    - Caudate Nucleous (Caudate)
+    - Caudate- Threat of shock (Collins et al., 2014; Murty, LaBar, Adcock, 2012)
+    - Hippocampus - binding/encoding of context
     - Others?
-- What are the _transient_ neural correlates supporting emotional/neutral encoding?
-    - Amygdala (AMY)
-    - Perirhinal cortex (PRC)
-    - Others?
-- How do these neural correlates relate to subsequent emotional memory?
-
-## Hypotheses | Sustained
-
-- Past research suggests that the **Hippocampus** is key for encoding context
-    - Particularly visual-spatial context
-- Past research suggests that the **Caudate Nucleus** is active when encountering a threatening context.
-    - Threat of shock, Uncertainty
-- Perhaps others brain areas?
-    - TEXT TEXT TEXT
-
-## Hypotheses | Transient
-
-- Past research implicates the **Amygdala** in the perception of salient features  
-    - Faces, pictures, objects, task-relevant  
-- Past research implicates the **Perirhinal Cortex** in the encoding and retrieval of item information  
-    - Faces, pictures, objects, task-relevant  
-
-## Hypotheses | DM Effects
-
-- Do any of the above mentioned neural correlates change as a function of subsequent item-emotion association retrieval success?
-  - TEXT, TEXT, TEXT
+- What are the _transient_ neural correlates supporting item-emotion encoding?
+    - Amygdala (AMY) - emotional salience
+    - Perirhinal cortex (PRC) - items and item features
 
 ## Modeling
 
@@ -118,7 +94,7 @@ To answer these questions, we created a GLM that:
 
 - ...captures both **sustained** BOLD responses over the course of Mini-blocks and **transient** BOLD responses to individual stimuli.
 
-- ...captures neural correlates that vary as a function of subsequent memory (i.e., a **difference in memory**  effect).
+- ...captures neural correlates that vary as a function of subsequent item-emotion memory (i.e., a **difference in memory**  effect).
 
 ## Modeling | Design Matrix
 
@@ -434,3 +410,9 @@ ezANOVA(dv = summary_value
   - Other brain regions include bilateral frontal pole, ACC, superior frontal gyrus, orbital frontal cortex, early visual, and the cerebellum
 
 </div>
+
+## Future analyses
+
+- Functional connectivity
+    - AMY <--> PRC?
+- Other thoughts?
